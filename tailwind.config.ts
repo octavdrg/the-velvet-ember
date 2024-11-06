@@ -11,9 +11,15 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        'dark-bg': '#1a1a1a',
+        'accent': '#c9a66b',
+      },
+      fontFamily: {
+        'sans': ['Cormorant Garamond', 'serif'],
       },
     },
   },
   plugins: [],
 };
+
 export default config;
