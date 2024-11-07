@@ -1,7 +1,14 @@
 {
   "extends": ["next/core-web-vitals", "next/typescript"],
   "rules": {
-    "react/no-unescaped-entities": "off",
-    "@typescript-eslint/no-unused-vars": "warn"
-  }
+    "no-var": "warn"
+  },
+  "overrides": [
+    {
+      "files": ["src/lib/db.ts"],
+      "rules": {
+        "no-var": "off"
+      }
+    }
+  ]
 }
