@@ -17,6 +17,7 @@ export default function Header() {
       if (typeof window !== 'undefined') {
         if (window.scrollY > lastScrollY) {
           setIsVisible(false)
+          setIsMenuOpen(false) // Close the menu when scrolling down
         } else {
           setIsVisible(true)
         }
@@ -37,7 +38,7 @@ export default function Header() {
   }
 
   return (
-    <header className={`fixed w-full z-10 transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+    <header className={`fixed w-full z-10 transition-all duration-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full'}`}>
       <nav className="container mx-auto px-4 py-6">
         <div className="flex justify-between items-center">
           <Link href="/" className="text-3xl md:text-4xl font-bold text-accent">
