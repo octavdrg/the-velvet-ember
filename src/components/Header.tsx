@@ -3,10 +3,12 @@
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
+import { Menu, X } from 'lucide-react'
 
 export default function Header() {
   const [isVisible, setIsVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const pathname = usePathname()
   const isHomePage = pathname === '/'
 
@@ -30,59 +32,47 @@ export default function Header() {
     }
   }, [lastScrollY])
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen)
+  }
+
   return (
     <header className={`fixed w-full z-10 transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-      <nav className="container mx-auto flex justify-between items-center p-6 pt-8">
-        <Link href="/" className="text-4xl font-bold text-accent">
-          The Velvet Ember
-        </Link>
-        <ul className="flex space-x-8 text-2xl">
-          <li>
-            <Link href="/" className={`transition duration-300 ${
-              isHomePage 
-                ? 'text-white hover:text-opacity-80' 
-                : 'text-gray-800 hover:text-accent'
-            }`}>
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link href="/about" className={`transition duration-300 ${
-              isHomePage 
-                ? 'text-white hover:text-opacity-80' 
-                : 'text-gray-800 hover:text-accent'
-            }`}>
-              About
-            </Link>
-          </li>
-          <li>
-            <Link href="/menu" className={`transition duration-300 ${
-              isHomePage 
-                ? 'text-white hover:text-opacity-80' 
-                : 'text-gray-800 hover:text-accent'
-            }`}>
-              Menu
-            </Link>
-          </li>
-          <li>
-            <Link href="/reserve" className={`transition duration-300 ${
-              isHomePage 
-                ? 'text-white hover:text-opacity-80' 
-                : 'text-gray-800 hover:text-accent'
-            }`}>
-              Reserve
-            </Link>
-          </li>
-          <li>
-            <Link href="/contact" className={`transition duration-300 ${
-              isHomePage 
-                ? 'text-white hover:text-opacity-80' 
-                : 'text-gray-800 hover:text-accent'
-            }`}>
-              Contact
-            </Link>
-          </li>
-        </ul>
+      <nav className="container mx-auto px-4 py-6">
+        <div className="flex justify-between items-center">
+          <Link href="/" className="text-3xl md:text-4xl font-bold text-accent">
+            The Velvet Ember
+          </Link>
+          <div className="md:hidden">
+            <button 
+              onClick={toggleMenu} 
+              className={`${isHomePage ? 'text-white' : 'text-gray-800'} hover:text-accent`}
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+          <ul className={`md:flex md:space-x-8 text-xl ${
+            isMenuOpen 
+              ? 'absolute top-full left-0 right-0 bg-white shadow-md p-4 space-y-4 md:space-y-0' 
+              : 'hidden'
+          }`}>
+            {['Home', 'About', 'Menu', 'Reserve', 'Contact'].map((item) => (
+              <li key={item}>
+                <Link
+                  href={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
+                  className={`block transition duration-300 ${
+                    isHomePage && !isMenuOpen
+                      ? 'text-white hover:text-opacity-80'
+                      : 'text-gray-800 hover:text-accent'
+                  }`}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {item}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       </nav>
     </header>
   )
